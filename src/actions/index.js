@@ -1,1 +1,2 @@
 require("./commands")
+require("./action")
