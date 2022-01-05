@@ -1,0 +1,27 @@
+{
+  "name": "assistant-controller",
+  "version": "0.0.1",
+  "description": "Assistant Controller Bot",
+  "main": "app.js",
+  "scripts": {
+    "format": "npx prettier --write src/",
+    "start": "node src/app",
+    "test": "nodemon src/app"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "assistant",
+    "controller"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "telegraf": "3.38"
+  }
+}
