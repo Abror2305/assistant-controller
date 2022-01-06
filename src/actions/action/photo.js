@@ -1,7 +1,7 @@
 const { composer, middleware } = require("../../core/bot");
 const { Markup } = require("telegraf")
 const env = require('../../core/env')
-let senderId = 0
+let senderId;
 
 composer.on("photo", async ctx=>{
     const username =ctx.from.username
