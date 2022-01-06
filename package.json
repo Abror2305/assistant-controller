@@ -14,7 +14,7 @@
     "assistant",
     "controller"
   ],
-  "author": "",
+  "author": "AssistantNT Organization",
   "license": "MIT",
   "devDependencies": {
     "dotenv": "^10.0.0",
