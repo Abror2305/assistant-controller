@@ -1,1 +1,2 @@
 require("./start");
+require('./help')

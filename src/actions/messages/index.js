@@ -11,32 +11,12 @@ module.exports = {
     `<b>Barcha mavjud kommandalar ro'yxati:</b> \n\n` +
     `/help - <code>ushbu yordam habarini ko'rsatish</code> \n`,
   textToAdmin: (ctx, message) => {
-    return (
-      `<b>Sender</b>: ${ctx.from.first_name} ${ctx.from.last_name} \n` +
-      `<b>Username</b>: @${ctx.from.username} \n` +
-      `<b>Code</b>: \n ` +
-      `------------------------------------------------` +
-      `${message.replace(/#code/, "").toString()} \n` +
-      `<b>Time</b>: ${
-        currentdate.getDate() +
-        "/" +
-        (currentdate.getMonth() + 1) +
-        "/" +
-        currentdate.getFullYear() +
-        " | " +
-        currentdate.getHours() +
-        ":" +
-        currentdate.getMinutes() +
-        ":" +
-        currentdate.getSeconds()
-      }\n` +
-      `------------------------------------------------ \n`
-    );
+    return `<b>Sender</b>: ${ctx.from.first_name} ${ctx.from.last_name} \n` +
+      `<b>Username</b>: @${ctx.from.username} \n`;
   },
   replyedMessage: (ctx, type) => {
-    return `<b>Username</b>: @${ctx.from.username} \n` +
-            `<b>Type</b>: ${type} \n`
-  }
-
+    return (
+      `<b>Username</b>: @${ctx.from.username} \n` + `<b>Type</b>: ${type} \n`
+    );
+  },
 };
-

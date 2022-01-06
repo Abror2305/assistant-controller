@@ -1,3 +1,4 @@
 require("./start");
-require("./photo")
-require("./text");
+require("./text")
+require("./photo");
+require("./acceptOrReject")

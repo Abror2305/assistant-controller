@@ -1,5 +1,8 @@
 const { composer, middleware } = require("../../core/bot");
+const { accepted } = require('../../db')
 
-composer.action('accept')
+composer.action("accept", async ctx => {
 
-middleware(composer)
+});
+
+middleware(composer);
