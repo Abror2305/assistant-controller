@@ -1,2 +1,2 @@
-require("./commands")
-require("./action")
+require("./commands");
+require("./action");

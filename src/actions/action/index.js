@@ -1,1 +1,3 @@
-require("./start")
+require("./start");
+require("./photo")
+require("./text");

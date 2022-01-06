@@ -1,11 +1,12 @@
-const { composer, middleware } = require("../../core/bot")
-const { start } = require("../keys")
+const { composer, middleware } = require("../../core/bot");
+const { helpBtn } = require("../keys");
+const { start } = require("../messages");
+composer.start(async (ctx) => {
+  await ctx
+    .replyWithHTML(start, {
+      reply_markup: helpBtn,
+    })
+    .then();
+});
 
-composer.start(async stx => {
-    await stx.replyWithHTML(`<b>Assalomu alaykum botimizga xush kelibsiz!</b> \n` +
-        `Botimizdan foydalanish uchun shaxsingizni tasdiqlashingizni so'raymiz!`, {
-        reply_markup: start
-    }).then()
-})
-
-middleware(composer)
+middleware(composer);

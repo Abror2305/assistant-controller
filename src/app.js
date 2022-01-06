@@ -1,2 +1,2 @@
-require("./core")
-require("./actions")
+require("./core");
+require("./actions");

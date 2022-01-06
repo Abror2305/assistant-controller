@@ -1,3 +1,3 @@
 module.exports = {
-    "start": () => console.log(`Server is starting...`)
-}
+  start: () => console.log(`Server is starting...`),
+};
