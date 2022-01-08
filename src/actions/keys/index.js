@@ -1,18 +1,30 @@
 const { Markup } = require("telegraf");
-const env = require('../../core/env')
+const env = require("../../core/env");
 module.exports = {
   helpBtn: Markup.inlineKeyboard([[Markup.callbackButton("Yordam", "help")]]),
-  acceptOrIgnore: (message_id) => {
-    return Markup.inlineKeyboard([
+
+  checkBtn: message_id =>
+    Markup.inlineKeyboard([
       [
-        Markup.callbackButton("Tasdiqlash", "accept"),
-        Markup.callbackButton("Rad etish", "reject"),
-        Markup.urlButton("Uyga vazifa", `https://t.me/c/${env.CONFESSION.slice(3)}/${message_id}`)
+        Markup.callbackButton("Accept ✅", "accept"),
+        Markup.callbackButton("Reject ❌", "reject"),
+        Markup.urlButton(
+          "Homework",
+          `t.me/c/${env.SHARE_POINT.slice(4)}/${message_id}`),
       ],
-    ])
-  },
-  showCode: Markup.inlineKeyboard([
-    [Markup.callbackButton("Kodni olish", "showcode")],
+    ]),
+
+  homework: (message_id) =>
+    Markup.inlineKeyboard([
+      [
+        Markup.urlButton(
+          "Uyga vazifa",
+          `https://t.me/c/${env.SHARE_POINT.slice(3)}/${message_id}`
+        ),
+      ],
+    ]),
+
+  getCode: () => Markup.inlineKeyboard([
+    [Markup.callbackButton("Get code", `getCode`)],
   ]),
 };
-

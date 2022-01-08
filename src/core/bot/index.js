@@ -1,13 +1,15 @@
 const { Telegraf, Composer } = require("telegraf");
-const env = require("./env");
-const { start } = require("../log");
+const env = require("../env");
 const composer = new Composer();
-const bot = new Telegraf(env.TOKEN);
+const index = new Telegraf(env.TOKEN);
+const { start } = require("../../log");
+
+
 const middleware = (composer) => {
-  bot.use(composer.middleware());
+  index.use(composer.middleware());
 };
 
-bot.launch().then(start);
+index.launch().then(start);
 
 middleware(composer);
 
@@ -15,3 +17,4 @@ module.exports = {
   composer,
   middleware,
 };
+

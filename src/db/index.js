@@ -1,5 +1,8 @@
-const accepted = {};
+const database = {
+  homeworks: [],
+  requests: []
+};
 
 module.exports = {
-    accepted
-}
+  database,
+};

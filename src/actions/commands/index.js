@@ -1,2 +1,3 @@
 require("./start");
-require('./help')
+require("./help");
+require('./homework');
