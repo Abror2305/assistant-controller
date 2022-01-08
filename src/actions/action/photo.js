@@ -1,5 +1,4 @@
 const { composer, middleware } = require("../../core/bot");
-const { Markup } = require("telegraf");
 const env = require("../../core/env");
 const {isHomework} = require("../lib/check");
 const {database} = require("../../db");
@@ -11,7 +10,7 @@ composer.on("photo", async (ctx) => {
     let content = ctx.update.message;
     let caption = content.caption ?? '';
 
-    if (caption.match(/^#answer/g) && isHomework(content.reply_to_message.forward_from_message_id)){
+    if (caption.match(/^#answer/gi) && isHomework(content.reply_to_message.forward_from_message_id)){
         database.requests.push({
             from: {
                 user_id: content.from.id,
@@ -26,15 +25,17 @@ composer.on("photo", async (ctx) => {
         });
 
         await ctx.telegram.sendPhoto(env.ADMIN_CHANNEL, content.photo[0].file_id, {
-            caption: textToAdmin(content, caption, 'pending'),
+            caption: textToAdmin(content, caption.replace(/^#answer/gi," "), 'pending'),
             reply_markup: checkBtn(content.reply_to_message.forward_from_message_id),
             parse_mode: "HTML"
         })
 
-        await ctx.telegram.sendMessage(env.CONFESSION, changedMessage(content, 'pending', {
+        await ctx.telegram.sendMessage(env.CONFESSION, changedMessage(content, 'pending'),
+          {
             reply_to_message: content.reply_to_message.message_id,
-            reply_markup: getCode()
-        }))
+            reply_markup: getCode(),
+            parse_mode: "HTML"
+        })
 
         await ctx.telegram.deleteMessage(env.CONFESSION, content.message_id);
 
