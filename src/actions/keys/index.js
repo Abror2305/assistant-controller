@@ -17,4 +17,13 @@ module.exports = {
   getCode: () => Markup.inlineKeyboard([
     [Markup.callbackButton("Get code", `getCode`)],
   ]),
+
+  homeworkBtn: url => Markup.inlineKeyboard([
+      [
+          Markup.urlButton(
+              "Homework",
+              url
+          )
+      ]
+  ])
 };

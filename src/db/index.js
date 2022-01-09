@@ -17,7 +17,19 @@ function writeDatabase(obj, type){
   })
 }
 
+function changeStatus(homework_id, user_id, status){
+    let database = loadDatabase();
+    let answer = database['requests'].find(request => request['from']['user_id'] === user_id && request['homework_id'] === homework_id)
+    answer['status'] = status;
+    fs.writeFileSync(path.join(__dirname, 'database.json'), JSON.stringify(database), (err) => {
+        if (err){
+            throw new Error('Write error: ' + err);
+        }
+    })
+}
+
 module.exports = {
   writeDatabase,
-  loadDatabase
+  loadDatabase,
+    changeStatus
 };

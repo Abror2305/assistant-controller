@@ -10,7 +10,7 @@ composer.on("photo", async (ctx) => {
     let caption = content.caption ?? '';
 
     if (caption.match(/^#answer/gi) && isHomework(content.reply_to_message.forward_from_message_id)){
-
+        caption = caption.replace(/^#answer/gi,"")
         let obj = {
             from: {
                 user_id: content.from.id,
@@ -25,18 +25,10 @@ composer.on("photo", async (ctx) => {
         }
 
         await ctx.telegram.sendPhoto(env.ADMIN_CHANNEL, content.photo[0].file_id, {
-            caption: textToAdmin(content, caption.replace(/^#answer/gi," "), 'pending'),
+            caption: textToAdmin(content, caption, 'pending'),
             reply_markup: checkBtn(content.reply_to_message.forward_from_message_id),
             parse_mode: "HTML"
         })
-
-        // await ctx.telegram.sendMessage(env.CONFESSION, changedMessage(content, 'pending'),
-        //   {
-        //     reply_to_message: content.reply_to_message.forward_from_message_id,
-        //     reply_markup: getCode(),
-        //     parse_mode: "HTML"
-        // })
-
 
         await ctx.reply(changedMessage(content, 'pending'), {
             reply_to_message_id: content.reply_to_message.message_id,
@@ -44,8 +36,8 @@ composer.on("photo", async (ctx) => {
             parse_mode: "HTML"
         })
 
-
         await ctx.telegram.deleteMessage(env.CONFESSION, content.message_id);
+
         await writeDatabase(obj, 'requests');
     }
 });

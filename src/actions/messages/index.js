@@ -14,11 +14,17 @@ module.exports = {
   textToAdmin: (ctx, caption, status) =>
       `<b>From:</b> ${ ctx.from.first_name + (ctx.from.last_name ?
           ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } \n` +
-      `<b>Caption:</b> ${caption} \n` +
+      `<b>User ID:</b> ${ctx.from.id} \n` +
+      `<b>Caption:</b> ${caption || 'empty'} \n` +
       `<b>Status:</b> ${status}`,
 
   changedMessage: (ctx, status) =>
       `<b>From:</b> ${ ctx.from.first_name + (ctx.from.last_name ?
           ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } \n` +
       `<b>Status:</b> ${status} \n`,
+
+  rejectedMesage: ctx =>
+      `Siz yuborgan ushbu yechim, ${ ctx.from.first_name + (ctx.from.last_name ?
+          ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } tomonidan rad etildi ❌ \n\n` +
+          `<i>Yana urinib ko'rishingiz mumkin</i>`,
 };
