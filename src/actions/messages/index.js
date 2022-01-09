@@ -21,5 +21,4 @@ module.exports = {
       `<b>From:</b> ${ ctx.from.first_name + (ctx.from.last_name ?
           ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } \n` +
       `<b>Status:</b> ${status} \n`,
-
 };

@@ -4,6 +4,7 @@ const {isHomework} = require("../lib/check");
 const {database} = require("../../db");
 const {changedMessage, textToAdmin} = require("../messages");
 const {checkBtn, getCode} = require("../keys");
+require('../../db/database.json')
 let senderId;
 
 composer.on("photo", async (ctx) => {
@@ -38,7 +39,6 @@ composer.on("photo", async (ctx) => {
         })
 
         await ctx.telegram.deleteMessage(env.CONFESSION, content.message_id);
-
     } else {
 
     }
@@ -75,22 +75,22 @@ composer.on("photo", async (ctx) => {
 });
 
 // Accept
-composer.action("true", (ctx) => {
-  ctx.telegram.sendMessage(senderId, "Sizning vazifangiz tasdiqlandi").then();
-  ctx
-    .editMessageCaption("<b>Tasdiqlandi ✅</b>", { parse_mode: "HTML" })
-    .then();
-});
-
-// Reject
-composer.action("false", (ctx) => {
-  ctx.telegram
-    .sendMessage(
-      senderId,
-      "Sizning vazifangiz xato. Iltimos qayta urunib koring!"
-    )
-    .then();
-  ctx.editMessageCaption("<b>Xato</b>", { parse_mode: "HTML" }).then();
-});
+// composer.action("true", (ctx) => {
+//   ctx.telegram.sendMessage(senderId, "Sizning vazifangiz tasdiqlandi").then();
+//   ctx
+//     .editMessageCaption("<b>Tasdiqlandi ✅</b>", { parse_mode: "HTML" })
+//     .then();
+// });
+//
+// // Reject
+// composer.action("false", (ctx) => {
+//   ctx.telegram
+//     .sendMessage(
+//       senderId,
+//       "Sizning vazifangiz xato. Iltimos qayta urunib koring!"
+//     )
+//     .then();
+//   ctx.editMessageCaption("<b>Xato</b>", { parse_mode: "HTML" }).then();
+// });
 
 middleware(composer);
