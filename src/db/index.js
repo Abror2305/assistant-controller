@@ -1,25 +1,23 @@
 const fs = require('fs');
+const path = require('path')
+
+function loadDatabase(){
+  return JSON.parse(fs.readFileSync(path.join(__dirname, 'database.json'), 'utf8'));
+}
 
 function writeDatabase(obj, type){
-  let database = JSON.parse(fs.readFileSync('database.json', 'utf8'));
+  let database = loadDatabase();
 
   database[type].push(obj)
 
-  fs.writeFileSync('database.json', JSON.stringify(database), (err) => {
+  fs.writeFileSync(path.join(__dirname, 'database.json'), JSON.stringify(database), (err) => {
     if (err){
       throw new Error('Write error: ' + err);
     }
-    console.log("Write successfuly")
   })
 }
 
-// function loadDatabase(){
-//   let loadedJSON = JSON.parse(fs.readFileSync('database.json', 'utf8'));
-//   database = JSON.parse(loadedJSON);
-// }
-
-
-
 module.exports = {
-  writeDatabase
+  writeDatabase,
+  loadDatabase
 };

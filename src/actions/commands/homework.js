@@ -9,7 +9,6 @@ composer.on("channel_post", async (ctx) => {
             {
                 message_id: content.message_id,
                 message_text: text,
-                message_date: content.date
             }, 'homeworks'
         )
     }
