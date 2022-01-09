@@ -12,14 +12,14 @@ module.exports = {
     `/help - <code>ushbu yordam habarini ko'rsatish</code> \n`,
 
   textToAdmin: (ctx, caption, status) =>
-      `<b>From:</b> ${ ctx.from.first_name + ctx.from.last_name ?
-          ' ' + ctx.from.last_name : '' || '@' + ctx.from.username } \n` +
+      `<b>From:</b> ${ ctx.from.first_name + (ctx.from.last_name ?
+          ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } \n` +
       `<b>Caption:</b> ${caption} \n` +
       `<b>Status:</b> ${status}`,
 
   changedMessage: (ctx, status) =>
-      `<b>From:</b> ${ ctx.from.first_name + ctx.from.last_name ?
-          ' ' + ctx.from.last_name : '' || '@' + ctx.from.username } \n` +
+      `<b>From:</b> ${ ctx.from.first_name + (ctx.from.last_name ?
+          ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } \n` +
       `<b>Status:</b> ${status} \n`,
 
 };
