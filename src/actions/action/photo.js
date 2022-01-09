@@ -5,13 +5,25 @@ const { writeDatabase } = require("../../db");
 const {changedMessage, textToAdmin} = require("../messages");
 const {checkBtn, getCode} = require("../keys");
 require('../../db/database.json')
-let senderId;
 
 composer.on("photo", async (ctx) => {
     let content = ctx.update.message;
     let caption = content.caption ?? '';
 
     if (caption.match(/^#answer/gi) && isHomework(content.reply_to_message.forward_from_message_id)){
+
+        let obj = {
+            from: {
+                user_id: content.from.id,
+                first_name: content.from.first_name,
+                last_name: content.from.last_name,
+                username: content.from.username
+            },
+            homework_id: content.reply_to_message.forward_from_message_id,
+            file_id: content.photo[0].file_id,
+            status: 'pending',
+            caption: caption
+        }
 
         await ctx.telegram.sendPhoto(env.ADMIN_CHANNEL, content.photo[0].file_id, {
             caption: textToAdmin(content, caption.replace(/^#answer/gi," "), 'pending'),
@@ -26,21 +38,10 @@ composer.on("photo", async (ctx) => {
             parse_mode: "HTML"
         })
 
-        await writeDatabase({
-                from: {
-                    user_id: content.from.id,
-                    first_name: content.from.first_name,
-                    last_name: content.from.last_name,
-                    username: content.from.username
-                },
-                homework_id: content.reply_to_message.forward_from_message_id,
-                file_id: content.photo[0].file_id,
-                status: 'pending',
-                caption: caption,
-            }, 'requests'
-        );
+
 
         await ctx.telegram.deleteMessage(env.CONFESSION, content.message_id);
+        await writeDatabase(obj, 'requests');
     } else {
 
     }

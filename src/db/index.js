@@ -10,7 +10,7 @@ function writeDatabase(obj, type){
 
   database[type].push(obj)
 
-  fs.writeFileSync(path.join(__dirname, 'database.json'), JSON.stringify(database), (err) => {
+   fs.writeFileSync(path.join(__dirname, 'database.json'), JSON.stringify(database), (err) => {
     if (err){
       throw new Error('Write error: ' + err);
     }
