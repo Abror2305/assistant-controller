@@ -14,16 +14,6 @@ module.exports = {
       ],
     ]),
 
-  homework: (message_id) =>
-    Markup.inlineKeyboard([
-      [
-        Markup.urlButton(
-          "Uyga vazifa",
-          `https://t.me/c/${env.SHARE_POINT.slice(3)}/${message_id}`
-        ),
-      ],
-    ]),
-
   getCode: () => Markup.inlineKeyboard([
     [Markup.callbackButton("Get code", `getCode`)],
   ]),
