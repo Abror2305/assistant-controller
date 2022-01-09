@@ -1,4 +1,3 @@
-let currentdate = new Date();
 module.exports = {
   start:
     `<b>Controller botga xush kelibsiz!</b> \n\n` +
@@ -7,36 +6,25 @@ module.exports = {
     `<code> * ma'lumotlarni havfsiz va \n` +
     ` tartibli saqlash </code>\n\n` +
     `<i>Botdan foydalanish boʻyicha toʻliq maʼlumotni koʻrish uchun quyidagi tugmani bosing.</i>`,
+
   help:
     `<b>Barcha mavjud kommandalar ro'yxati:</b> \n\n` +
     `/help - <code>ushbu yordam habarini ko'rsatish</code> \n`,
-  textToAdmin: (ctx, message) => {
-    return (
-      `<b>Sender</b>: ${ctx.from.first_name} ${ctx.from.last_name} \n` +
-      `<b>Username</b>: @${ctx.from.username} \n` +
-      `<b>Code</b>: \n ` +
-      `------------------------------------------------` +
-      `${message.replace(/#code/, "").toString()} \n` +
-      `<b>Time</b>: ${
-        currentdate.getDate() +
-        "/" +
-        (currentdate.getMonth() + 1) +
-        "/" +
-        currentdate.getFullYear() +
-        " | " +
-        currentdate.getHours() +
-        ":" +
-        currentdate.getMinutes() +
-        ":" +
-        currentdate.getSeconds()
-      }\n` +
-      `------------------------------------------------ \n`
-    );
-  },
-  replyedMessage: (ctx, type) => {
-    return `<b>Username</b>: @${ctx.from.username} \n` +
-            `<b>Type</b>: ${type} \n`
-  }
 
+  textToAdmin: (ctx, caption, status) =>
+      `<b>From:</b> ${ ctx.from.first_name + (ctx.from.last_name ?
+          ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } \n` +
+      `<b>User ID:</b> ${ctx.from.id} \n` +
+      `<b>Caption:</b> ${caption || 'empty'} \n` +
+      `<b>Status:</b> ${status}`,
+
+  changedMessage: (ctx, status) =>
+      `<b>From:</b> ${ ctx.from.first_name + (ctx.from.last_name ?
+          ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } \n` +
+      `<b>Status:</b> ${status} \n`,
+
+  rejectedMesage: ctx =>
+      `Siz yuborgan ushbu yechim, ${ ctx.from.first_name + (ctx.from.last_name ?
+          ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } tomonidan rad etildi ❌ \n\n` +
+          `<i>Yana urinib ko'rishingiz mumkin</i>`,
 };
-

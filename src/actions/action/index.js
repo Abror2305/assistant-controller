@@ -1,3 +1,3 @@
 require("./start");
-require("./photo")
-require("./text");
+require("../commands/photo");
+require('./reject')
