@@ -22,7 +22,6 @@
     "prettier": "^2.5.1"
   },
   "dependencies": {
-    "mariadb-manager": "^0.0.1",
     "mysql": "^2.18.1",
     "telegraf": "3.38"
   }
