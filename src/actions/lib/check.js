@@ -1,4 +1,3 @@
-
 function isHomework(message_id){
 
 //    Check is really homework?
