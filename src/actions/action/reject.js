@@ -26,11 +26,12 @@ composer.action('reject', async ctx => {
     connection.query(`UPDATE Answer SET status=0 WHERE homework_id=${homework_id} AND from_id=${user_id};`)
     connection.commit()
 
-    // User statusini reject qilish kerak
+    // User statusini reject qilish kerak ???????? Error
     let replaced_message_id = get_replaced_message_id(user_id, homework_id)
-    // await ctx.telegram.editMessageText(env.CONFESSION, replaced_message_id[0]["replaced_message_id"], changedMessage(
-    //   replaced_message_id[1], replaced_message_id[1], "Rejected ❌")).then()
+    let index = replaced_message_id.length - 1
     console.log(replaced_message_id);
+    await ctx.telegram.editMessageText(env.CONFESSION, replaced_message_id[index]["replaced_message_id"], null,
+      changedMessage(replaced_message_id[index]['first_name'], replaced_message_id[index]['last_name'], "Rejected ❌")).then()
 })
 
 
