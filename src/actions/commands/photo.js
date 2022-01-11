@@ -20,6 +20,7 @@ composer.on("photo", async (ctx) => {
             parse_mode: "HTML"
         })
 
+
         // Kommentga user kodini joylash
         await ctx.reply(changedMessage(content, 'pending'), {
             reply_to_message_id: content.reply_to_message.message_id,
@@ -27,41 +28,35 @@ composer.on("photo", async (ctx) => {
             parse_mode: "HTML"
         })
 
+
         // User yuborgan uyga vazifani o'chirib tashlash
         await ctx.telegram.deleteMessage(env.CONFESSION, content.message_id);
 
-        console.log(content);
-        // Databasega yozish kerak
-        // connection.connect()
-        //
-        // connection.query(`INSERT INTO Answer (
-        //     user_name,
-        //     first_name,
-        //     last_name,
-        //     from_id,
-        //     photo_id,
-        //     caption,
-        //     status
-        //     ) values (
-        //
-        //
-        //     )`)
+
+
+        // Databasega yozish
+        connection.connect()
+
+        connection.query("INSERT INTO Answer ( " +
+            " user_name," +
+            " first_name," +
+            " last_name," +
+            " from_id," +
+            " homework_id," +
+            " repled_homework_id," +
+            " photo_id," +
+            " caption" +
+            " ) VALUES ( \"" +
+            content.from.username + "\" , \"" +
+            content.from.first_name + "\" , \"" +
+            content.from.last_name + "\" , " +
+            content.from.id + " , " +
+            content.reply_to_message.forward_from_message_id + " , " +
+            content.reply_to_message.message_id + " , \"" +
+            content.photo[0].file_id + "\" , \"" +
+            content.caption.replace(/^#answer/g, "") + "\" );");
+        connection.end()
     }
-    // MariaDB [bot]> DESCRIBE Answer;
-    // +------------+--------------+------+-----+---------+-------+
-    // | Field      | Type         | Null | Key | Default | Extra |
-    // +------------+--------------+------+-----+---------+-------+
-    // | user_name  | varchar(50)  | NO   |     | NULL    |       |
-    // | first_name | varchar(50)  | NO   |     | NULL    |       |
-    // | last_name  | varchar(50)  | NO   |     | NULL    |       |
-    // | from_id    | int(50)      | NO   |     | NULL    |       |
-    // | photo_id   | varchar(255) | NO   |     | NULL    |       |
-    // | caption    | varchar(255) | NO   |     | NULL    |       |
-    // | status     | tinyint(1)   | YES  |     | NULL    |       |
-    // +------------+--------------+------+-----+---------+-------+
-    //   7 rows in set (0.002 sec)
-
-
 });
 
 middleware(composer);
