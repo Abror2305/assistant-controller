@@ -1,4 +1,5 @@
-// const connection = require("mysql").createConnection({
+// function isHomework(message_id){
+//     const connection = require("mysql").createConnection({
 //     host: "localhost",
 //     user: "Abror",
 //     password: "Abror2006/",
@@ -10,11 +11,11 @@ function isHomework(mesage_id) {
     connection.connect()
     connection.query(`SELECT * FROM Homework WHERE message_id=${mesage_id}`, (err, result) => {
         if (err) throw err;
-
         return !!result.length;
     });
     connection.end()
 }
+
 module.exports = {
     isHomework,
 }

@@ -3,12 +3,16 @@ const env = require("../../core/env");
 const { isHomework } = require("../lib/check");
 const { changedMessage, textToAdmin } = require("../messages");
 const { checkBtn, getCode } = require("../keys");
+const { connection } = require('../../db')
+
 
 composer.on("photo", async (ctx) => {
     let content = ctx.update.message;
     let caption = content.caption ?? '';
 
-    if (caption.match(/^#answer/gi)){ //&& isHomework(content.reply_to_message.forward_from_message_id)){
+                                                // isHomework funksiyani yozish kerak
+    if (caption.match(/^#answer/gi) && isHomework(content.reply_to_message.forward_from_message_id)){
+
         caption = caption.replace(/^#answer/gi,"")
 
         // Admin kanaliga uyga vazifani yuborish
@@ -18,6 +22,7 @@ composer.on("photo", async (ctx) => {
             parse_mode: "HTML"
         })
 
+
         // Kommentga user kodini joylash
         await ctx.reply(changedMessage(content, 'pending'), {
             reply_to_message_id: content.reply_to_message.message_id,
@@ -25,11 +30,34 @@ composer.on("photo", async (ctx) => {
             parse_mode: "HTML"
         })
 
+
         // User yuborgan uyga vazifani o'chirib tashlash
         await ctx.telegram.deleteMessage(env.CONFESSION, content.message_id);
 
-        // Databasega yozish kerak
-        // Code here
+
+
+        // Databasega yozish
+        connection.connect()
+
+        connection.query("INSERT INTO Answer ( " +
+            " user_name," +
+            " first_name," +
+            " last_name," +
+            " from_id," +
+            " homework_id," +
+            " repled_homework_id," +
+            " photo_id," +
+            " caption" +
+            " ) VALUES ( \"" +
+            content.from.username + "\" , \"" +
+            content.from.first_name + "\" , \"" +
+            content.from.last_name + "\" , " +
+            content.from.id + " , " +
+            content.reply_to_message.forward_from_message_id + " , " +
+            content.reply_to_message.message_id + " , \"" +
+            content.photo[0].file_id + "\" , \"" +
+            content.caption.replace(/^#answer/g, "") + "\" );");
+        connection.end()
     }
 });
 
