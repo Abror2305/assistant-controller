@@ -22,15 +22,11 @@ composer.action('reject', async ctx => {
 
 
     // Databasedagi statusni 'reject' ga o'zgartirish;
-    connection.connect()
-
     connection.query(`UPDATE Answer SET status=0 WHERE homework_id=${url.match(/\d+$/g)[0]} AND from_id=${user_id};`)
-
-    connection.end()
-
+    connection.commit()
 
     // User statusini reject qilish kerak
-    ctx.editMessageText()
+    // ctx.editMessageText()
 
 })
 

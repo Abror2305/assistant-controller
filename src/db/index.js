@@ -5,6 +5,9 @@ const connection = require("mysql").createConnection({
   password: env.DB_PASSWORD,
   database: env.DB_NAME
 });
+
+connection.connect()
+
 module.exports = {
   connection
 }

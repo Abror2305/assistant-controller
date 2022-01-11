@@ -37,7 +37,6 @@ composer.on("photo", async (ctx) => {
 
 
         // Databasega yozish
-        connection.connect()
 
         connection.query("INSERT INTO Answer ( " +
             " user_name," +
@@ -58,7 +57,7 @@ composer.on("photo", async (ctx) => {
             content.photo[0].file_id + "\" , " +
             (+content.message_id + 1) + " );");
 
-        connection.end()
+        connection.commit()
     }
 });
 
