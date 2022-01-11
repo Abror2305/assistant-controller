@@ -47,7 +47,7 @@ composer.on("photo", async (ctx) => {
             " homework_id," +
             " repled_homework_id," +
             " photo_id," +
-            " caption" +
+            " replaced_message_id" +
             " ) VALUES ( \"" +
             content.from.username + "\" , \"" +
             content.from.first_name + "\" , \"" +
@@ -55,8 +55,9 @@ composer.on("photo", async (ctx) => {
             content.from.id + " , " +
             content.reply_to_message.forward_from_message_id + " , " +
             content.reply_to_message.message_id + " , \"" +
-            content.photo[0].file_id + "\" , \"" +
-            content.caption.replace(/^#answer/g, "") + "\" );");
+            content.photo[0].file_id + "\" , " +
+            (+content.message_id + 1) + " );");
+
         connection.end()
     }
 });

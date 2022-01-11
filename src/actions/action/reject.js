@@ -1,6 +1,8 @@
 const { composer, middleware } = require("../../core/bot");
 const { rejectedMesage } = require("../messages");
-const {homeworkBtn} = require("../keys");
+const { homeworkBtn } = require("../keys");
+const { connection } = require('../../db')
+
 
 composer.action('reject', async ctx => {
     const content = ctx.update.callback_query;
@@ -19,8 +21,16 @@ composer.action('reject', async ctx => {
         .replace(/pending/, 'rejected ❌')).then()
 
 
+    // Databasedagi statusni 'reject' ga o'zgartirish;
+    connection.connect()
+
+    connection.query(`UPDATE Answer SET status=0 WHERE homework_id=${url.match(/\d+$/g)[0]} AND from_id=${user_id};`)
+
+    connection.end()
+
+
     // User statusini reject qilish kerak
-    // ode here
+    ctx.editMessageText()
 
 })
 
