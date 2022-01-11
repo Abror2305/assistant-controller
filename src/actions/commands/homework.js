@@ -1,5 +1,5 @@
 const { composer, middleware } = require("../../core/bot");
-const { connection } = require("../../db");
+const {connection } = require("../../db");
 
 
 composer.on("channel_post", async (ctx) => {

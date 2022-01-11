@@ -1,5 +1,3 @@
-const MySQL = require("sync-mysql");
-const env = require("../../core/env");
 
 function isHomework(mesage_id) {
     const MySQL = require("sync-mysql");
@@ -34,8 +32,28 @@ function get_replaced_message_id(from_id, homework_id) {
 
     return result;
 }
+function checkIsUnique(from_id, homework_id) {
+    const MySQL = require("sync-mysql");
+    const env = require('../../core/env')
+    const connection = new MySQL({
+        host: env.DB_HOST,
+        user: env.DB_USER,
+        password: env.DB_PASSWORD,
+        database: env.DB_NAME
+    });
 
+    let result = connection.query(`Select status FROM Answer WHERE from_id= ${from_id} AND homework_id=${homework_id}`);
+    connection.dispose()
+
+    if (result.length && result[0].status !== null) {
+        return true;
+    }
+    else return !result.length;
+}
+
+console.log(checkIsUnique(722785022,140))
 module.exports = {
     isHomework,
-    get_replaced_message_id
+    get_replaced_message_id,
+    checkIsUnique
 }

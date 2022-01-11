@@ -27,4 +27,8 @@ module.exports = {
       `Siz yuborgan ushbu yechim, ${ ctx.from.first_name + (ctx.from.last_name ?
           ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } tomonidan rad etildi ❌ \n\n` +
           `<i>Yana urinib ko'rishingiz mumkin</i>`,
+  acceptMessage: ctx => `Siz yuborgan ushbu yechim, ${ ctx.from.first_name + (ctx.from.last_name ?
+      ' ' + ctx.from.last_name : '') || '@' + ctx.from.username } tomonidan tasdiqlandi! ✔ \n\n` +
+      `<i>Get code tugmani bosish orqali boshqa ishlaganlar yechimini olishingiz mumkin! </i>`,
+  notUniqueMessage: `<b>Sizning yechimingiz tasdiqlanmagunicha boshqa yechim yubora olmaysiz!\n Iltimos javobingiz tasdiqlanishini kutib turing</b>`,
 };
