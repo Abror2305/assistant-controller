@@ -1,19 +1,18 @@
-// function isHomework(message_id){
-//     const connection = require("mysql").createConnection({
-//     host: "localhost",
-//     user: "Abror",
-//     password: "Abror2006/",
-//     database: "assistant_controller"
-// });
-const { connection } = require("../../db")
-
 function isHomework(mesage_id) {
-    connection.connect()
-    connection.query(`SELECT * FROM Homework WHERE message_id=${mesage_id}`, (err, result) => {
-        if (err) throw err;
-        return !!result.length;
+    const MySQL = require("sync-mysql");
+    const env = require('../../core/env')
+    const connection = new MySQL({
+        host: env.DB_HOST,
+        user: env.DB_USER,
+        password: env.DB_PASSWORD,
+        database: env.DB_NAME
     });
-    connection.end()
+
+    let result = connection.query(`SELECT * FROM Homework WHERE message_id=${mesage_id}`);
+
+    connection.dispose()
+
+    return !!result.length;
 }
 
 module.exports = {

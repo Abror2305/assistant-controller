@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "mysql": "^2.18.1",
+    "sync-mysql": "^3.0.1",
     "telegraf": "3.38"
   }
 }

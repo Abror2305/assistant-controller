@@ -10,7 +10,7 @@ composer.on("photo", async (ctx) => {
     let content = ctx.update.message;
     let caption = content.caption ?? '';
 
-                                                // isHomework funksiyani yozish kerak
+
     if (caption.match(/^#answer/gi) && isHomework(content.reply_to_message.forward_from_message_id)){
 
         caption = caption.replace(/^#answer/gi,"")
