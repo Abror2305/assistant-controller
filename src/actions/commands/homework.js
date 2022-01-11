@@ -1,5 +1,4 @@
 const { composer, middleware } = require("../../core/bot");
-const env = require("../../core/env");
 
 
 composer.on("channel_post", async (ctx) => {
