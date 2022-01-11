@@ -6,17 +6,15 @@
 // });
 const { connection } = require("../../db")
 
-
 function isHomework(mesage_id) {
-        connection.query(`SELECT * FROM Homework WHERE message_id = ${mesage_id}`, (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                return result.length > 0;
-            }
-        });
+    connection.connect()
+    connection.query(`SELECT * FROM Homework WHERE message_id=${mesage_id}`, (err, result) => {
+        if (err) throw err;
+
+        return !!result.length;
+    });
+    connection.end()
 }
-isHomework(114)
 module.exports = {
     isHomework,
 }
