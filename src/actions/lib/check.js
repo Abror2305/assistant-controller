@@ -26,11 +26,15 @@ function get_replaced_message_id(from_id, homework_id) {
         database: env.DB_NAME
     });
 
-    let result = connection.query(`SELECT replaced_message_id, first_name, last_name FROM Answer WHERE homework_id=${homework_id} AND from_id="${from_id}"`);
+    let result = connection.query(`SELECT replaced_message_id, first_name, last_name, user_name FROM Answer WHERE homework_id=${homework_id} AND from_id="${from_id}"`);
 
     connection.dispose()
 
-    return result;
+    return {
+        from: {
+            first_name: result
+        }
+    };
 }
 function checkIsUnique(from_id, homework_id) {
     const MySQL = require("sync-mysql");
@@ -51,7 +55,6 @@ function checkIsUnique(from_id, homework_id) {
     else return !result.length;
 }
 
-console.log(checkIsUnique(722785022,140))
 module.exports = {
     isHomework,
     get_replaced_message_id,

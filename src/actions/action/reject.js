@@ -28,13 +28,10 @@ composer.action('reject', async ctx => {
 
     // User statusini reject qilish kerak ???????? Error
     let replaced_message_id = get_replaced_message_id(user_id, homework_id)
-    let index = replaced_message_id.length - 1
+    let index = replaced_message_id.length - 1;
     console.log(replaced_message_id);
     await ctx.telegram.editMessageText(env.CONFESSION, replaced_message_id[index]["replaced_message_id"], null,
       changedMessage(replaced_message_id[index]['first_name'], replaced_message_id[index]['last_name'], "Rejected ❌")).then()
 })
-
-
-
 
 middleware(composer)
