@@ -1,4 +1,5 @@
 
+
 function isHomework(mesage_id) {
     const MySQL = require("sync-mysql");
     const env = require('../../core/env')
@@ -49,10 +50,10 @@ function checkIsUnique(from_id, homework_id) {
     let result = connection.query(`Select status FROM Answer WHERE from_id= ${from_id} AND homework_id=${homework_id}`);
     connection.dispose()
 
-    if (result.length && result[0].status !== null) {
+    if (result.length && result[0].status !== null && result[0].status !== 1) {
         return true;
     }
-    else return !result.length;
+    return !result.length;
 }
 
 module.exports = {
