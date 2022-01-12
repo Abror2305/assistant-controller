@@ -1,24 +1,19 @@
 const { composer, middleware } = require("../../core/bot");
-const Manager = require("mariadb-manager");
-const env = require("../../core/env");
-const db = new  Manager({
-    host: env.DB_HOST,
-    user: env.DB_USER,
-    password: env.DB_PASSWORD,
-    database: env.DB_NAME
-});
-db.createConnection()
+const {connection } = require("../../db");
 
 
-db.selectDatabase(env.DB_NAME);
 composer.on("channel_post", async (ctx) => {
     let content = ctx.update.channel_post
     let text = content.text ?? content.caption ?? '';
+    let file_id = !(content["photo"]) ? " " : content["photo"][0]["file_id"];
     if (text.match(/^#homework/gi)){
-        db.selectAll("Homework")
-    //    Write to database code here
 
+        let iquery = `INSERT INTO Homework(message_id, file_id) VALUES (${content.message_id}, "${file_id}");`
+        connection.query(iquery,err => {
+            if(err) throw err;
+            console.log("Query Executed")
+        })
+        connection.commit()
     }
 })
-
 middleware(composer)
