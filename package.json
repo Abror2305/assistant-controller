@@ -17,12 +17,15 @@
   "author": "AssistantNT Organization",
   "license": "MIT",
   "devDependencies": {
+    "@types/mysql": "^2.15.20",
+    "@types/node": "^17.0.8",
     "dotenv": "^10.0.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1"
   },
   "dependencies": {
     "mysql": "^2.18.1",
+    "sync-mysql": "^3.0.1",
     "telegraf": "3.38"
   }
 }
