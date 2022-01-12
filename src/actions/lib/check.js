@@ -1,5 +1,3 @@
-
-
 function isHomework(mesage_id) {
     const MySQL = require("sync-mysql");
     const env = require('../../core/env')
@@ -27,15 +25,11 @@ function get_replaced_message_id(from_id, homework_id) {
         database: env.DB_NAME
     });
 
-    let result = connection.query(`SELECT replaced_message_id, first_name, last_name, user_name FROM Answer WHERE homework_id=${homework_id} AND from_id="${from_id}"`);
+    let result = connection.query(`SELECT replaced_message_id FROM Answer WHERE homework_id=${homework_id} AND from_id="${from_id}"`);
 
     connection.dispose()
 
-    return {
-        from: {
-            first_name: result
-        }
-    };
+    return result[0].replaced_message_id;
 }
 function checkIsUnique(from_id, homework_id) {
     const MySQL = require("sync-mysql");
