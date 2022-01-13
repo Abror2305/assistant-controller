@@ -50,7 +50,7 @@ function checkIsUnique(from_id, homework_id) {
     return !result.length;
 }
 
-function checkIsAccepted(from_id, homework_id) {
+function checkIsAccepted(homework_id) {
     const MySQL = require("sync-mysql");
     const env = require('../../core/env');
     const connection = new MySQL({
@@ -60,7 +60,7 @@ function checkIsAccepted(from_id, homework_id) {
         database: env.DB_NAME
     });
 
-    let result = connection.query(`select * FROM Answer WHERE from_id= ${from_id} AND homework_id=${homework_id} AND status=1`);
+    let result = connection.query(`select * FROM Answer WHERE homework_id=${homework_id} AND status=1`);
     connection.dispose()
 
     return result;
