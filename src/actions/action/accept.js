@@ -1,15 +1,15 @@
 const { composer, middleware } = require("../../core/bot");
-const { acceptMessage, changedMessage} = require("../messages");
+const { acceptMessage, changedMessage,forward_accepted_homework} = require("../messages");
 const { homeworkBtn, getCode} = require("../keys");
 const {connection} = require("../../db");
-const {get_replaced_message_id} = require("../lib/check");
+const {get_replaced_message_id, confirmed} = require("../lib/check");
 const env = require("../../core/env");
 composer.action('accept', async ctx => {
     const content = ctx.update.callback_query;
     let user_id = +content.message.caption.match(/User ID: \d+/g)[0].match(/\d+/g)
     let url = content.message.reply_markup.inline_keyboard[0][2].url;
     let homework_id = url.match(/\d+$/g)[0];
-
+    let accepted_users = confirmed(url);
 
     // O'quvchining vazifasi tog'ri ekanligi haqida habar berish
     await ctx.telegram.sendPhoto(user_id, content.message.photo[0].file_id, {
@@ -26,8 +26,15 @@ composer.action('accept', async ctx => {
             reply_markup: homeworkBtn(url)
     }).then()
 
-
-
+    for (let i of accepted_users) {
+        ctx.telegram.sendPhoto(i.from_id, content.message.photo[0].file_id, {
+            caption: forward_accepted_homework(ctx),
+            reply_markup: homeworkBtn(url),
+            parse_mode: "HTML"
+        }).then().catch((err)=>{
+            return err
+        })
+    }
 
     connection.query(`UPDATE Answer SET status=1 WHERE homework_id=${url.match(/\d+$/g)[0]} AND from_id=${user_id};`)
 

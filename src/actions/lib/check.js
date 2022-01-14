@@ -15,6 +15,23 @@ function isHomework(mesage_id) {
     return !!result.length;
 }
 
+function confirmed(homework_url) {
+    const MySQL = require("sync-mysql");
+    const env = require('../../core/env')
+    const connection = new MySQL({
+        host: env.DB_HOST,
+        user: env.DB_USER,
+        password: env.DB_PASSWORD,
+        database: env.DB_NAME
+    });
+    console.log(homework_url.match(/\d+$/g));
+    let result = connection.query(`SELECT from_id FROM Answer WHERE homework_id =${+homework_url.match(/\d+$/g)[0]} AND status=1;`);
+
+    connection.dispose()
+    return result;
+}
+
+
 function get_replaced_message_id(from_id, homework_id) {
     const MySQL = require("sync-mysql");
     const env = require('../../core/env')
@@ -72,5 +89,6 @@ module.exports = {
     isHomework,
     get_replaced_message_id,
     checkIsUnique,
-    checkIsAccepted
+    checkIsAccepted,
+    confirmed
 }
