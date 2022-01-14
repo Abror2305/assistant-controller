@@ -2,7 +2,7 @@ const { composer, middleware } = require("../../core/bot");
 const env = require("../../core/env");
 const { isHomework,checkIsUnique } = require("../lib/check");
 const { changedMessage, textToAdmin,notUniqueMessage } = require("../messages");
-const { checkBtn, getCode } = require("../keys");
+const { checkBtn } = require("../keys");
 const { connection } = require('../../db')
 
 
@@ -26,13 +26,8 @@ composer.on("photo", async (ctx) => {
             // Kommentga user kodini joylash
             await ctx.reply(changedMessage(content, 'pending'), {
                 reply_to_message_id: content.reply_to_message.message_id,
-                reply_markup: getCode(),
                 parse_mode: "HTML"
             })
-
-
-
-
 
             // Databasega yozish
 
