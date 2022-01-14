@@ -1,18 +1,19 @@
 const { composer, middleware } = require("../../core/bot");
-const env = require("../../core/env");
-const { isHomework,checkIsUnique } = require("../lib/check");
+const { isHomework, isAnswered } = require("../lib");
 const { changedMessage, textToAdmin,notUniqueMessage } = require("../messages");
 const { checkBtn } = require("../keys");
 const { connection } = require('../../db')
+const env = require("../../core/env");
 
-
-composer.on("photo", async (ctx) => {
+// Handler
+composer.on('photo', async ctx => {
+    // Get main data (object)
     let content = ctx.update.message;
     let caption = content.caption ?? '';
-    let message_id = content["reply_to_message"]?.forward_from_message_id ?? "";
+    let homework_message_id = content["reply_to_message"]?.forward_from_message_id ?? "";
 
-    if (caption.match(/^#answer/gi) && message_id && isHomework(message_id)){
-        if (checkIsUnique(content.from.id,message_id)) {
+    if (caption.match(/^#answer/gi) && homework_message_id && isHomework(homework_message_id)){
+        if (isAnswered(content.from.id, homework_message_id)) {
             caption = caption.replace(/^#answer/gi, "")
 
             // Admin kanaliga uyga vazifani yuborish

@@ -1,5 +1,5 @@
 const { composer, middleware } = require("../../core/bot");
-const { checkIsAccepted } = require("../lib/check");
+const { checkIsAccepted } = require("../lib");
 const { warningForUser, errorForUser, sendForUser, forward_accepted_homework } = require("../messages");
 const { homeworkBtn } = require("../keys");
 const env = require("../../core/env");

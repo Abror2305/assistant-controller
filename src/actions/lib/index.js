@@ -1,6 +1,8 @@
-function isHomework(mesage_id) {
+function isHomework(message_id) {
     const MySQL = require("sync-mysql");
     const env = require('../../core/env')
+
+    // Create connection
     const connection = new MySQL({
         host: env.DB_HOST,
         user: env.DB_USER,
@@ -8,8 +10,9 @@ function isHomework(mesage_id) {
         database: env.DB_NAME
     });
 
-    let result = connection.query(`SELECT * FROM Homework WHERE message_id=${mesage_id}`);
+    let result = connection.query(`SELECT id FROM homework WHERE message_id=${message_id}`);
 
+    // End connection
     connection.dispose()
 
     return !!result.length;
@@ -25,13 +28,13 @@ function get_replaced_message_id(from_id, homework_id) {
         database: env.DB_NAME
     });
 
-    let result = connection.query(`SELECT replaced_message_id FROM Answer WHERE homework_id=${homework_id} AND from_id="${from_id}"`);
+    let result = connection.query(`SELECT * FROM Answer WHERE homework_id=${homework_id} AND from_id="${from_id}"`);
 
     connection.dispose()
 
-    return result[0].replaced_message_id;
+    return result[0];
 }
-function checkIsUnique(from_id, homework_id) {
+function isAnswered(from_id, homework_id) {
     const MySQL = require("sync-mysql");
     const env = require('../../core/env')
     const connection = new MySQL({
@@ -66,11 +69,26 @@ function checkIsAccepted(from_id, homework_id) {
     return result;
 }
 
+function getCurrentId(table_name){
+    const MySQL = require("sync-mysql");
+    const env = require('../../core/env');
+    const connection = new MySQL({
+        host: env.DB_HOST,
+        user: env.DB_USER,
+        password: env.DB_PASSWORD,
+        database: env.DB_NAME
+    });
 
+    let result = connection.query(`SELECT MAX(id) FROM ${table_name};`);
+    connection.dispose()
+
+    return result[0]['id'] ?? 1;
+}
 
 module.exports = {
     isHomework,
     get_replaced_message_id,
-    checkIsUnique,
-    checkIsAccepted
+    isAnswered,
+    checkIsAccepted,
+    getCurrentId
 }

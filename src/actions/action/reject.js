@@ -3,7 +3,7 @@ const { rejectedMesage, changedMessage } = require("../messages");
 const { homeworkBtn } = require("../keys");
 const { connection } = require('../../db')
 const env = require('../../core/env')
-const { get_replaced_message_id } = require("../lib/check");
+const { get_replaced_message_id } = require("../lib");
 
 composer.action('reject', async ctx => {
     const content = ctx.update.callback_query;
@@ -27,8 +27,15 @@ composer.action('reject', async ctx => {
 
     // Guruxdagi user statusini reject ga o'zgartirish
     let replaced_message_id = get_replaced_message_id(user_id, homework_id)
-    await ctx.telegram.editMessageText(env.CONFESSION, replaced_message_id, null,
-      changedMessage(ctx, "Rejected ❌"),{
+    let cloneCtx = {
+        from: {
+            first_name: replaced_message_id["first_name"],
+            last_name: replaced_message_id["last_name"],
+            username: replaced_message_id["user_name"]
+        }
+    }
+    await ctx.telegram.editMessageText(env.CONFESSION, replaced_message_id["replaced_message_id"], null,
+      changedMessage(cloneCtx, "Rejected ❌"),{
         parse_mode: "HTML",
         }).then()
 })

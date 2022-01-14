@@ -1,5 +1,6 @@
 const env = require("../core/env");
-const connection = require("mysql").createConnection({
+const mysql = require("mysql")
+const connection = mysql.createConnection({
   user: env.DB_USER,
   host: env.DB_HOST,
   password: env.DB_PASSWORD,

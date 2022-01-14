@@ -1,3 +1,3 @@
 require("./core");
-require("./actions");
 require("./db")
+require("./actions");
