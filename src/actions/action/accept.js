@@ -25,6 +25,10 @@ composer.action('accept', async ctx => {
         .replace(/pending/, 'Accepted ✅'),{
             reply_markup: homeworkBtn(url)
     }).then()
+
+
+
+
     connection.query(`UPDATE Answer SET status=1 WHERE homework_id=${url.match(/\d+$/g)[0]} AND from_id=${user_id};`)
 
     connection.commit()
