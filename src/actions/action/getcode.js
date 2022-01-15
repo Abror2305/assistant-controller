@@ -1,26 +1,37 @@
 const { composer, middleware } = require("../../core/bot");
-const { checkIsAccepted } = require("../lib");
-const { warningForUser, errorForUser, sendForUser, forward_accepted_homework } = require("../messages");
+const { checkIsAccepted, getInfoFromID } = require("../lib");
+const { warningForUser, errorForUser, sendForUser, captionForAcceptedUsers } = require("../messages");
 const { homeworkBtn } = require("../keys");
 const env = require("../../core/env");
+const { permissionDanied } = require("../../log");
 
-composer.action("getCode", async ctx => {
-  const content = ctx.update.callback_query;
-  let homework = checkIsAccepted(content.from.id, content.message.reply_to_message.forward_from_message_id);
-  if (homework.length){
-        let url = `t.me/c/${env.SHARE_POINT.slice(4)}/${homework[0]["homework_id"]}`
-    //    Send homework for other users
-    await ctx.telegram.sendPhoto(homework[0]["from_id"], homework[0]["photo_id"], {
-          caption: forward_accepted_homework(homework[0]),
-          reply_markup: homeworkBtn(url),
-          parse_mode: "HTML"
-        }).then().catch(async err => {
-          return await ctx.answerCbQuery(warningForUser, true).then()
-        })
-    return await ctx.answerCbQuery(sendForUser, true).then()
-  } else {
-    return await ctx.answerCbQuery(errorForUser, true).then()
-  }
+composer.action(/^getcode (.+)/g, async ctx => {
+    const content = ctx.update.callback_query;
+    const id = ctx.match[1];
+    const info = getInfoFromID(id);
+    let checked = checkIsAccepted(id);
+
+    if (checked === false){
+
+        return await ctx.answerCbQuery(errorForUser, true).then().catch(() => permissionDanied())
+
+    } else {
+
+        let url = `t.me/c/${env.SHARE_POINT.slice(4)}/${ info['homework_id'] }`
+
+        // Send homework for other users
+        await ctx.telegram.sendPhoto(content.from.id, info['photo_id'], {
+            caption: captionForAcceptedUsers({
+                first_name: info['first_name'],
+                last_name: info['last_name'],
+                username: info['username']
+            }),
+            reply_markup: homeworkBtn(url),
+            parse_mode: "HTML"
+        }).then().catch(async () => await ctx.answerCbQuery(warningForUser, true))
+
+        return await ctx.answerCbQuery(sendForUser, true).then()
+    }
 
 });
 

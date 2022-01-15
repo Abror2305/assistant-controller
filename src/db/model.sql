@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `answer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `answer` (
-  `id` int(15) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` int(15) NOT NULL AUTO_INCREMENT,
   `from_id` int(50) NOT NULL,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `first_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
