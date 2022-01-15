@@ -65,7 +65,7 @@ function isAnswered(from_id, homework_id) {
 
 }
 
-function checkIsAccepted(id) {
+function checkIsAccepted(from_id, homework_id) {
     const MySQL = require("sync-mysql");
     const env = require('../../core/env');
     const connection = new MySQL({
@@ -75,7 +75,7 @@ function checkIsAccepted(id) {
         database: env.DB_NAME
     });
 
-    let result = connection.query(`SELECT * FROM answer WHERE id=${ id } AND status=1`);
+    let result = connection.query(`SELECT * FROM answer WHERE from_id=${ from_id } AND homework_id=${ homework_id } AND status=1`);
     connection.dispose()
 
     return result.length ? result[0] : false;

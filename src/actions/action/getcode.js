@@ -9,7 +9,7 @@ composer.action(/^getcode (.+)/g, async ctx => {
     const content = ctx.update.callback_query;
     const id = ctx.match[1];
     const info = getInfoFromID(id);
-    let checked = checkIsAccepted(id);
+    let checked = checkIsAccepted(content.from.id, info['homework_id']);
 
     if (checked === false){
 
