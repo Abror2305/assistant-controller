@@ -29,7 +29,7 @@ module.exports = {
 
   acceptMessage: ctx => `Siz yuborgan ushbu yechim, ${ ctx.first_name + (ctx.last_name ?
       ' ' + ctx.last_name : '') || '@' + ctx.username } tomonidan tasdiqlandi! ✅ \n\n` +
-      `<i>Get code tugmani bosish orqali boshqa ishlaganlar yechimini olishingiz mumkin! </i>`,
+      `<i>Get code tugmani bosish orqali boshqa to'g'ri ishlaganlar yechimini olishingiz mumkin! </i>`,
 
   isAnsweredPending: `<b>Bir vaqtning o'zida ko'p marotaba yechim yubora olmaysiz!</b>`,
   isAnsweredAccepted: `<b>Sizning yechimingiz allaqachon tasdiqlanib bo'lgan!</b>`,
