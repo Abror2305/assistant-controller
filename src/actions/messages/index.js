@@ -53,10 +53,10 @@ module.exports = {
     } \n`,
 
   addGroupMessage:
-    `<i>Eslatma:</i> \n` +
-    `\t Botni biror guruh uchun faollashtirmoqchi bo'lsangiz sizga 2 ta kanal va 1 ta guruh kerak bo'ladi \n\n` +
-    `<i>Misol uchun:</i> \n` +
-    `\t <b>Share  Point</b> - o'quvchilar uchun uyga vazifa yoki biror ma'lumotlar joylab borish, \n` +
-    `\t <b>Discussion</b> - 'Share Point'ga tashlangan uyga vazifalar yechimini <i>comment</i>ga yuborish va muhokama qilish, \n` +
-    `\t <b>Admin Channel</b> - o'quvchilar <i>comment</i>ga yuborgan yechimlarini oson tekshirish uchun kerak bo'ladi`,
+    `<i>Eslatma:</i> \n\n` +
+    `\t Botni biror guruh uchun faollashtirmoqchi bo'lsangiz sizga 2 ta kanal va 1 ta guruh kerak bo'ladi \n\n\n` +
+    `<i>Misol uchun:</i> \n\n` +
+    `\t <b>Share  Point</b> - o'quvchilar uchun uyga vazifa yoki biror ma'lumotlar joylab borish, \n\n` +
+    `\t <b>Discussion</b> - <b>Share Point</b>ga tashlangan uyga vazifalar yechimini <i>comment</i>ga yuborish va muhokama qilish,\n\n` +
+    `\t <b>Admin Channel</b> - o'quvchilar <i>comment</i>ga yuborgan yechimlarini oson tekshirish uchun kerak bo'ladi \n`,
 };
