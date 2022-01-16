@@ -58,5 +58,6 @@ module.exports = {
     `<i>Misol uchun:</i> \n\n` +
     `\t <b>Share  Point</b> - o'quvchilar uchun uyga vazifa yoki biror ma'lumotlar joylab borish, \n\n` +
     `\t <b>Discussion</b> - <b>Share Point</b>ga tashlangan uyga vazifalar yechimini <i>comment</i>ga yuborish va muhokama qilish,\n\n` +
-    `\t <b>Admin Channel</b> - o'quvchilar <i>comment</i>ga yuborgan yechimlarini oson tekshirish uchun kerak bo'ladi \n`,
+    `\t <b>Admin Channel</b> - o'quvchilar <i>comment</i>ga yuborgan yechimlarini oson tekshirish uchun kerak bo'ladi \n\n\n` +
+    `<b>Botni guruh uchun faollashtirish uchun admin bilan bog'laning</b>`,
 };

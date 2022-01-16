@@ -22,4 +22,13 @@ module.exports = {
 
   homeworkBtn: (url) =>
     Markup.inlineKeyboard([[Markup.urlButton("Homework", url)]]),
+
+  adminContact: Markup.inlineKeyboard([
+    [
+      Markup.urlButton("Abdug'ani Toshmuhammedov", "@AbduganiToshmuhammedov")
+    ],
+    [
+      Markup.urlButton("Abror Alisherov", "@AbrorAlisherov")
+    ]
+  ])
 };
