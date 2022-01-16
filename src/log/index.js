@@ -5,5 +5,5 @@ module.exports = {
 
   answerSaved: (id) => console.log(`Answer saved with ID: ${id}`),
 
-  permissionDanied: () => console.log('Permission danied to send message!')
+  permissionDanied: () => console.log("Permission danied to send message!"),
 };

@@ -10,22 +10,16 @@ module.exports = {
         Markup.callbackButton("Reject ❌", `reject ${id}`),
         Markup.urlButton(
           "Homework",
-          `t.me/c/${env.SHARE_POINT.slice(4)}/${message_id}`),
+          `t.me/c/${env.SHARE_POINT.slice(4)}/${message_id}`
+        ),
       ],
     ]),
 
-  getCode: (id) => Markup.inlineKeyboard([
-    [
-      Markup.callbackButton("Get code", `getcode ${id}`)
-    ],
-  ]),
+  getCode: (id) =>
+    Markup.inlineKeyboard([
+      [Markup.callbackButton("Get code", `getcode ${id}`)],
+    ]),
 
-  homeworkBtn: url => Markup.inlineKeyboard([
-      [
-          Markup.urlButton(
-              "Homework",
-              url
-          )
-      ]
-  ])
+  homeworkBtn: (url) =>
+    Markup.inlineKeyboard([[Markup.urlButton("Homework", url)]]),
 };

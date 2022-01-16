@@ -4,7 +4,6 @@ const composer = new Composer();
 const index = new Telegraf(env.TOKEN);
 const { start } = require("../../log");
 
-
 const middleware = (composer) => {
   index.use(composer.middleware());
 };
@@ -17,4 +16,3 @@ module.exports = {
   composer,
   middleware,
 };
-
