@@ -54,6 +54,7 @@ DROP TABLE IF EXISTS `homework`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `homework` (
   `id` int(15) NOT NULL AUTO_INCREMENT,
+  `channel_id` int(15) NOT NULL,
   `message_id` int(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
