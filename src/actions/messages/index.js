@@ -41,5 +41,13 @@ module.exports = {
 
   captionForAcceptedUsers: (ctx) =>
     `<b>From:</b> ${ ctx.first_name + (ctx.last_name ?
-      ' ' + ctx.last_name : '') || '@' + ctx.username } \n`
+      ' ' + ctx.last_name : '') || '@' + ctx.username } \n`,
+
+  addGroupMessage:
+    `<i>Eslatma:</i> \n` +
+    `\t Botni biror guruh uchun faollashtirmoqchi bo'lsangiz sizga 2 ta kanal va 1 ta guruh kerak bo'ladi \n\n` +
+    `<i>Misol uchun:</i> \n` +
+    `\t <b>Share  Point</b> - o'quvchilar uchun uyga vazifa yoki biror ma'lumotlar joylab borish, \n` +
+    `\t <b>Discussion</b> - 'Share Point'ga tashlangan uyga vazifalar yechimini <i>comment</i>ga yuborish va muhokama qilish, \n` +
+    `\t <b>Admin Channel</b> - o'quvchilar <i>comment</i>ga yuborgan yechimlarini oson tekshirish uchun kerak bo'ladi`  
 };
