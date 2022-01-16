@@ -38,7 +38,7 @@ composer.action(/^reject (.+)/g, async (ctx) => {
     .catch(() => permissionDanied());
 
   // Change status from database
-  changeStatus(0, id[1]);
+  changeStatus(0, id[0]);
 
   // Delete message from group
   await ctx.telegram
