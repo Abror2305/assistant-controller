@@ -25,10 +25,10 @@ module.exports = {
 
   adminContact: Markup.inlineKeyboard([
     [
-      Markup.urlButton("Abdug'ani Toshmuhammedov", "@AbduganiToshmuhammedov")
+      Markup.urlButton("Abror Alisherov", "t.me/AbrorAlisherov")
     ],
     [
-      Markup.urlButton("Abror Alisherov", "@AbrorAlisherov")
+      Markup.urlButton("Abdug'ani Toshmuhammedov", "t.me/AbduganiToshmuhammedov")
     ]
   ])
 };
