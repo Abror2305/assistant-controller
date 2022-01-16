@@ -13,7 +13,7 @@ composer.on("channel_post", async (ctx) => {
     // Validation
     if (text.match(/^#homework/gi)) {
       if (group[channel_id]) {
-      let query = `INSERT INTO homework ( channel_id, message_id ) VALUES ( ${channel_id}, ${content.message_id} );`;
+      let query = `INSERT INTO homework ( channel_id, message_id ) VALUES ( "${channel_id}", ${content.message_id} );`;
 
       connection.query(query, (err) => {
         if (err) throw err;

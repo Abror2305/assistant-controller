@@ -1,15 +1,16 @@
 const { composer, middleware } = require("../../core/bot");
 const { rejectedMesage } = require("../messages");
 const { homeworkBtn } = require("../keys");
-const env = require("../../core/env");
-const { getInfoFromID, changeStatus } = require("../lib");
+const { getInfoFromID, changeStatus, getInfoAboutGroup } = require("../lib");
 const { permissionDanied } = require("../../log");
 
 composer.action(/^reject (.+)/g, async (ctx) => {
   const content = ctx.update.callback_query;
-  const id = ctx.match[1];
-  const info = getInfoFromID(id);
-  let url = `t.me/c/${env.SHARE_POINT.slice(4)}/${info["homework_id"]}`;
+  const id = ctx.match[1].split(' ');
+  const info = getInfoFromID(id[0]);
+  let group = getInfoAboutGroup(id[1])
+
+  let url = `t.me/c/${id[1].slice(4)}/${info["homework_id"]}`;
 
   // Send a rejection message to user
   await ctx.telegram
@@ -37,11 +38,11 @@ composer.action(/^reject (.+)/g, async (ctx) => {
     .catch(() => permissionDanied());
 
   // Change status from database
-  changeStatus(0, id);
+  changeStatus(0, id[1]);
 
   // Delete message from group
   await ctx.telegram
-    .deleteMessage(env.CONFESSION, info["replaced_message_id"])
+    .deleteMessage(group[0], info["replaced_message_id"])
     .then()
     .catch(() => permissionDanied());
 });

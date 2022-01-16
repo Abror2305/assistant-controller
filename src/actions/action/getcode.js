@@ -1,5 +1,5 @@
 const { composer, middleware } = require("../../core/bot");
-const { checkIsAccepted, getInfoFromID } = require("../lib");
+const { checkIsAccepted, getInfoFromID, getInfoAboutGroup } = require("../lib");
 const {
   warningForUser,
   errorForUser,
@@ -7,22 +7,19 @@ const {
   captionForAcceptedUsers,
 } = require("../messages");
 const { homeworkBtn } = require("../keys");
-const env = require("../../core/env");
-const { permissionDanied } = require("../../log");
 
 composer.action(/^getcode (.+)/g, async (ctx) => {
   const content = ctx.update.callback_query;
-  const id = ctx.match[1];
-  const info = getInfoFromID(id);
+  const id = ctx.match[1].split(' ');
+  const info = getInfoFromID(id[0]);
   let checked = checkIsAccepted(content.from.id, info["homework_id"]);
 
   if (checked === false) {
     return await ctx
       .answerCbQuery(errorForUser, true)
-      .then()
-      .catch(() => permissionDanied());
+      .then();
   } else {
-    let url = `t.me/c/${env.SHARE_POINT.slice(4)}/${info["homework_id"]}`;
+    let url = `t.me/c/${id[1].slice(4)}/${info["homework_id"]}`;
 
     // Send homework for other users
     await ctx.telegram
@@ -36,7 +33,7 @@ composer.action(/^getcode (.+)/g, async (ctx) => {
         parse_mode: "HTML",
       })
       .then()
-      .catch(async () => await ctx.answerCbQuery(warningForUser, true));
+      .catch(async () => await ctx.answerCbQuery(warningForUser, true).then());
 
     return await ctx.answerCbQuery(sendForUser, true).then();
   }

@@ -57,7 +57,7 @@ composer.on("photo", async (ctx) => {
               caption,
               "pending ⏳"
             ),
-            reply_markup: checkBtn(homework_message_id, currentID),
+            reply_markup: checkBtn(homework_message_id, currentID, share_point_id),
             parse_mode: "HTML",
           })
           .then()
