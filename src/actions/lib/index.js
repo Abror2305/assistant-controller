@@ -1,5 +1,6 @@
 const MySQL = require("sync-mysql");
 const env = require("../../core/env");
+const group = require("../../db/group.json");
 const connection = new MySQL({
   host: env.DB_HOST,
   user: env.DB_USER,
@@ -7,12 +8,14 @@ const connection = new MySQL({
   database: env.DB_NAME,
 });
 
-
-function isHomework(message_id) {
-  let result = connection.query(
-    `SELECT id FROM homework WHERE message_id=${message_id}`
-  );
-  return !!result.length;
+function isHomework(message_id, channel_id) {
+  if (channel_id){
+    let result = connection.query(
+      `SELECT id FROM homework WHERE message_id=${message_id} AND channel_id=${channel_id}`
+    );
+    return !!result.length;
+  }
+  return false;
 }
 
 function getLastID(tablename) {
@@ -46,7 +49,7 @@ function checkIsAccepted(from_id, homework_id) {
 
 function saveAnswer(ctx) {
   let check = connection.query(
-    `SELECT id FROM answer WHERE from_id=${ctx.from_id} AND homework_id=${ctx.homework_id}`
+    `SELECT id FROM answer WHERE from_id=${ctx['from_id']} AND homework_id=${ctx['homework_id']}`
   );
 
   if (check.length === 0) {
@@ -60,19 +63,19 @@ function saveAnswer(ctx) {
         " photo_id," +
         " replaced_message_id" +
         ' ) VALUES ( "' +
-        ctx.username +
+        ctx['username'] +
         '" , "' +
-        ctx.first_name +
+        ctx['first_name'] +
         '" , "' +
-        ctx.last_name +
+        ctx['last_name'] +
         '" , ' +
-        ctx.from_id +
+        ctx['from_id'] +
         " , " +
-        ctx.homework_id +
+        ctx['homework_id'] +
         ' , "' +
-        ctx.photo_id +
+        ctx['photo_id'] +
         '" , ' +
-        ctx.replaced_message_id +
+        ctx['replaced_message_id'] +
         " );"
     );
 
@@ -80,8 +83,8 @@ function saveAnswer(ctx) {
   } else {
     connection.query(`UPDATE answer
         SET
-            photo_id="${ctx.photo_id}",
-            replaced_message_id=${ctx.replaced_message_id}
+            photo_id="${ctx['photo_id']}",
+            replaced_message_id=${ctx['replaced_message_id']}
         WHERE
             id=${check[0]["id"]};`);
     return check[0]["id"];
@@ -94,8 +97,12 @@ function getInfoFromID(id) {
 }
 
 function changeStatus(status, id) {
-  const { connection } = require("../../db");
   connection.query(`UPDATE answer SET status=${status} WHERE id=${id};`);
+}
+
+function getInfoAboutGroup(share_point_id){
+  let group = require('../../db/group.json');
+  return group[`${share_point_id}`];
 }
 
 module.exports = {
@@ -106,4 +113,5 @@ module.exports = {
   getInfoFromID,
   changeStatus,
   getLastID,
+  getInfoAboutGroup
 };

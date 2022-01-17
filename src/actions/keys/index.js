@@ -3,11 +3,11 @@ const env = require("../../core/env");
 module.exports = {
   helpBtn: Markup.inlineKeyboard([[Markup.callbackButton("Yordam", "help")]]),
 
-  checkBtn: (message_id, id) =>
+  checkBtn: (message_id, id, share_point_id) =>
     Markup.inlineKeyboard([
       [
-        Markup.callbackButton("Accept ✅", `accept ${id}`),
-        Markup.callbackButton("Reject ❌", `reject ${id}`),
+        Markup.callbackButton("Accept ✅", `accept ${id} ${share_point_id}`),
+        Markup.callbackButton("Reject ❌", `reject ${id} ${share_point_id}`),
         Markup.urlButton(
           "Homework",
           `t.me/c/${env.SHARE_POINT.slice(4)}/${message_id}`
@@ -15,11 +15,20 @@ module.exports = {
       ],
     ]),
 
-  getCode: (id) =>
+  getCode: (id, share_point_id) =>
     Markup.inlineKeyboard([
-      [Markup.callbackButton("Get code", `getcode ${id}`)],
+      [Markup.callbackButton("Get code", `getcode ${id} ${share_point_id}`)],
     ]),
 
   homeworkBtn: (url) =>
     Markup.inlineKeyboard([[Markup.urlButton("Homework", url)]]),
+
+  adminContact: Markup.inlineKeyboard([
+    [
+      Markup.urlButton("Abror Alisherov", "t.me/AbrorAlisherov")
+    ],
+    [
+      Markup.urlButton("Abdug'ani Toshmuhammedov", "t.me/AbduganiToshmuhammedov")
+    ]
+  ])
 };

@@ -1,17 +1,16 @@
 const { composer, middleware } = require("../../core/bot");
 const { acceptMessage, changedMessage } = require("../messages");
 const { homeworkBtn, getCode } = require("../keys");
-const { getInfoFromID, changeStatus } = require("../lib");
-const env = require("../../core/env");
+const { getInfoFromID, changeStatus, getInfoAboutGroup } = require("../lib");
 const { permissionDanied } = require("../../log");
 
 composer.action(/^accept (.+)/g, async (ctx) => {
   // Get most needed data
   const content = ctx.update.callback_query;
-  const id = ctx.match[1];
-  const info = getInfoFromID(id);
-  let url = `t.me/c/${env.SHARE_POINT.slice(4)}/${info["homework_id"]}`;
-
+  const id = ctx.match[1].split(' ');
+  const info = getInfoFromID(id[0]);
+  let url = `t.me/c/${id[1].slice(4)}/${info["homework_id"]}`;
+  let group = getInfoAboutGroup(id[1])
   // Send a message to user
   await ctx.telegram
     .sendPhoto(info["from_id"], info["photo_id"], {
@@ -38,12 +37,12 @@ composer.action(/^accept (.+)/g, async (ctx) => {
     .catch(() => permissionDanied());
 
   // Change status from database
-  changeStatus(1, id);
+  changeStatus(1, id[0]);
 
   // Change the user status in the group
   await ctx.telegram
     .editMessageText(
-      env.CONFESSION,
+      group[0],
       info["replaced_message_id"],
       null,
       changedMessage(
@@ -55,7 +54,7 @@ composer.action(/^accept (.+)/g, async (ctx) => {
         "accepted ✅"
       ),
       {
-        reply_markup: getCode(id),
+        reply_markup: getCode(id[0], id[1]),
         parse_mode: "HTML",
       }
     )

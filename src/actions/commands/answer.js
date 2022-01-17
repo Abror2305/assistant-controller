@@ -1,5 +1,5 @@
 const { composer, middleware } = require("../../core/bot");
-const { isHomework, isAnswered, saveAnswer } = require("../lib");
+const { isHomework, isAnswered, saveAnswer, getInfoAboutGroup } = require("../lib");
 const {
   changedMessage,
   captionForAdmin,
@@ -7,24 +7,27 @@ const {
   isAnsweredAccepted,
 } = require("../messages");
 const { checkBtn } = require("../keys");
-const env = require("../../core/env");
 const { permissionDanied, answerSaved } = require("../../log");
 
 // Handler
 composer.on("photo", async (ctx) => {
+
   // Get main data (object)
   let content = ctx.update.message;
   let caption = content.caption ?? "";
+  let share_point_id = content?.reply_to_message?.sender_chat?.id;
+
   let homework_message_id =
     content["reply_to_message"]?.forward_from_message_id ?? "";
 
   if (
     homework_message_id &&
     caption.match(/^#answer/gi) &&
-    isHomework(homework_message_id)
+    isHomework(homework_message_id, share_point_id)
   ) {
-    let status = isAnswered(content.from.id, homework_message_id);
 
+    let status = isAnswered(content.from.id, homework_message_id);
+    let group = getInfoAboutGroup(share_point_id)
     switch (status) {
       case "new":
         // Remove '#answer' from caption
@@ -44,7 +47,7 @@ composer.on("photo", async (ctx) => {
 
         // Send user's answer to Admin channel
         await ctx.telegram
-          .sendPhoto(env.ADMIN_CHANNEL, content.photo[0].file_id, {
+          .sendPhoto(group[1], content.photo[0].file_id, {
             caption: captionForAdmin(
               {
                 first_name: content.from.first_name,
@@ -54,7 +57,7 @@ composer.on("photo", async (ctx) => {
               caption,
               "pending ⏳"
             ),
-            reply_markup: checkBtn(homework_message_id, currentID),
+            reply_markup: checkBtn(homework_message_id, currentID, share_point_id),
             parse_mode: "HTML",
           })
           .then()
@@ -106,7 +109,7 @@ composer.on("photo", async (ctx) => {
 
     // Delete excess homework
     await ctx.telegram
-      .deleteMessage(env.CONFESSION, content.message_id)
+      .deleteMessage(group[0], content.message_id)
       .then()
       .catch(() => permissionDanied());
   }
