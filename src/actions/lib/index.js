@@ -115,6 +115,11 @@ function addGroups(sharepoint_id,discussion,admin_chanel){
   )
 }
 
+function isAdmin(id){
+  let result = connection.query(`SELECT id FROM premium_members WHERE id=${id};`)
+  return !!result.length
+}
+
 module.exports = {
   isHomework,
   isAnswered,
@@ -125,5 +130,6 @@ module.exports = {
   getLastID,
   getInfoAboutGroup,
   addGroups,
-  checkGroup
+  checkGroup,
+  isAdmin
 };
