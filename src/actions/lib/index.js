@@ -1,6 +1,5 @@
 const MySQL = require("sync-mysql");
 const env = require("../../core/env");
-const group = require("../../db/group.json");
 const connection = new MySQL({
   host: env.DB_HOST,
   user: env.DB_USER,
@@ -8,10 +7,10 @@ const connection = new MySQL({
   database: env.DB_NAME,
 });
 
-function isHomework(message_id, channel_id) {
+function  isHomework(message_id, channel_id) {
   if (channel_id){
     let result = connection.query(
-      `SELECT id FROM homework WHERE message_id=${message_id} AND channel_id=${channel_id}`
+      `SELECT * FROM homeworks WHERE message_id=${message_id} AND channel_id=${channel_id}`
     );
     return !!result.length;
   }
@@ -25,7 +24,7 @@ function getLastID(tablename) {
 
 function isAnswered(from_id, homework_id) {
   let result = connection.query(
-    `SELECT status FROM answer WHERE from_id=${from_id} AND homework_id=${homework_id};`
+    `SELECT status FROM answers WHERE from_id=${from_id} AND homework_id=${homework_id};`
   );
 
   if (result.length) {
@@ -41,7 +40,7 @@ function isAnswered(from_id, homework_id) {
 
 function checkIsAccepted(from_id, homework_id) {
   let result = connection.query(
-    `SELECT * FROM answer WHERE from_id=${from_id} AND homework_id=${homework_id} AND status=1`
+    `SELECT * FROM answers WHERE from_id=${from_id} AND homework_id=${homework_id} AND status=1`
   );
 
   return result.length ? result[0] : false;
@@ -49,12 +48,12 @@ function checkIsAccepted(from_id, homework_id) {
 
 function saveAnswer(ctx) {
   let check = connection.query(
-    `SELECT id FROM answer WHERE from_id=${ctx['from_id']} AND homework_id=${ctx['homework_id']}`
+    `SELECT id FROM answers WHERE from_id=${ctx['from_id']} AND homework_id=${ctx['homework_id']}`
   );
 
   if (check.length === 0) {
     connection.query(
-      "INSERT INTO answer ( " +
+      "INSERT INTO answers ( " +
         " username," +
         " first_name," +
         " last_name," +
@@ -79,9 +78,9 @@ function saveAnswer(ctx) {
         " );"
     );
 
-    return getLastID("answer");
+    return getLastID("answers");
   } else {
-    connection.query(`UPDATE answer
+    connection.query(`UPDATE answers
         SET
             photo_id="${ctx['photo_id']}",
             replaced_message_id=${ctx['replaced_message_id']}
@@ -92,12 +91,12 @@ function saveAnswer(ctx) {
 }
 
 function getInfoFromID(id) {
-  const result = connection.query(`SELECT * FROM answer WHERE id=${id}`);
+  const result = connection.query(`SELECT * FROM answers WHERE id=${id}`);
   return result[0];
 }
 
 function changeStatus(status, id) {
-  connection.query(`UPDATE answer SET status=${status} WHERE id=${id};`);
+  connection.query(`UPDATE answers SET status=${status} WHERE id=${id};`);
 }
 
 function getInfoAboutGroup(share_point_id){
