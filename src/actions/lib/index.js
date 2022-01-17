@@ -103,6 +103,17 @@ function getInfoAboutGroup(share_point_id){
   let group = require('../../db/group.json');
   return group[`${share_point_id}`];
 }
+function checkGroup(sharepoint_id,discussion,admin_chanel){
+  let result = connection.query(`SELECT share_point FROM groups WHERE share_point=${sharepoint_id} OR`+
+    ` discussion=${discussion} OR admin_channel=${admin_chanel};`)
+  console.log(result);
+  return !result.length
+}
+function addGroups(sharepoint_id,discussion,admin_chanel){
+  connection.query(`INSERT INTO groups (share_point,discussion,admin_channel)`+
+    `VALUES ( ${sharepoint_id},${discussion},${admin_chanel});`
+  )
+}
 
 module.exports = {
   isHomework,
@@ -112,5 +123,7 @@ module.exports = {
   getInfoFromID,
   changeStatus,
   getLastID,
-  getInfoAboutGroup
+  getInfoAboutGroup,
+  addGroups,
+  checkGroup
 };
