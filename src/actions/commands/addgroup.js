@@ -1,24 +1,24 @@
 const { composer, middleware } = require("../../core/bot");
 const { addGroupMessage } = require("../messages");
-let { addGroups,checkGroup,isAdmin } = require("../lib/index")
+let { addGroups, checkGroup, isAdmin } = require("../lib/index");
 composer.command("addgroup", async (ctx) => {
   let from_id = ctx.message.from.id;
 
-  let text = ctx.message?.text?.match(/-100\d+/g)
-  if (isAdmin(from_id)){
-    if(text?.length===3 && text.every((v)=>v.length<15)){
-      if(checkGroup(text[0],text[1],text[2])) {
-        addGroups(text[0], text[1], text[2])
-        await ctx.replyWithMarkdown(`*Sizning guruxingiz muvaffaqiyatli qoshildi*`)
+  let text = ctx.message?.text?.match(/-100\d+/g);
+  if (isAdmin(from_id)) {
+    if (text?.length === 3 && text.every((v) => v.length < 15)) {
+      if (checkGroup(text[0], text[1], text[2])) {
+        addGroups(text[0], text[1], text[2]);
+        await ctx.replyWithMarkdown(
+          `*Sizning guruxingiz muvaffaqiyatli qoshildi*`
+        );
+      } else {
+        await ctx.replyWithMarkdown(
+          `*Sizning gurux yoki kanlaingiz allaqachon qo'shilib bo'lingan*`
+        );
       }
-      else{
-        await ctx.replyWithMarkdown(`*Sizning gurux yoki kanlaingiz allaqachon qo'shilib bo'lingan*`)
-      }
-    }
-    else {
-      await ctx
-        .replyWithHTML(addGroupMessage)
-        .then();
+    } else {
+      await ctx.replyWithHTML(addGroupMessage).then();
     }
   } else {
     await ctx

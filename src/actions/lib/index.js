@@ -7,8 +7,8 @@ const connection = new MySQL({
   database: env.DB_NAME,
 });
 
-function  isHomework(message_id, channel_id) {
-  if (channel_id){
+function isHomework(message_id, channel_id) {
+  if (channel_id) {
     let result = connection.query(
       `SELECT * FROM homeworks WHERE message_id=${message_id} AND channel_id=${channel_id}`
     );
@@ -48,7 +48,7 @@ function checkIsAccepted(from_id, homework_id) {
 
 function saveAnswer(ctx) {
   let check = connection.query(
-    `SELECT id FROM answers WHERE from_id=${ctx['from_id']} AND homework_id=${ctx['homework_id']}`
+    `SELECT id FROM answers WHERE from_id=${ctx["from_id"]} AND homework_id=${ctx["homework_id"]}`
   );
 
   if (check.length === 0) {
@@ -62,19 +62,19 @@ function saveAnswer(ctx) {
         " photo_id," +
         " replaced_message_id" +
         ' ) VALUES ( "' +
-        ctx['username'] +
+        ctx["username"] +
         '" , "' +
-        ctx['first_name'] +
+        ctx["first_name"] +
         '" , "' +
-        ctx['last_name'] +
+        ctx["last_name"] +
         '" , ' +
-        ctx['from_id'] +
+        ctx["from_id"] +
         " , " +
-        ctx['homework_id'] +
+        ctx["homework_id"] +
         ' , "' +
-        ctx['photo_id'] +
+        ctx["photo_id"] +
         '" , ' +
-        ctx['replaced_message_id'] +
+        ctx["replaced_message_id"] +
         " );"
     );
 
@@ -82,8 +82,8 @@ function saveAnswer(ctx) {
   } else {
     connection.query(`UPDATE answers
         SET
-            photo_id="${ctx['photo_id']}",
-            replaced_message_id=${ctx['replaced_message_id']}
+            photo_id="${ctx["photo_id"]}",
+            replaced_message_id=${ctx["replaced_message_id"]}
         WHERE
             id=${check[0]["id"]};`);
     return check[0]["id"];
@@ -99,25 +99,32 @@ function changeStatus(status, id) {
   connection.query(`UPDATE answers SET status=${status} WHERE id=${id};`);
 }
 
-function getInfoAboutGroup(share_point_id){
-  let group = require('../../db/group.json');
+function getInfoAboutGroup(share_point_id) {
+  let group = require("../../db/group.json");
   return group[`${share_point_id}`];
 }
-function checkGroup(sharepoint_id,discussion,admin_chanel){
-  let result = connection.query(`SELECT share_point FROM groups WHERE share_point=${sharepoint_id} OR`+
-    ` discussion=${discussion} OR admin_channel=${admin_chanel};`)
+
+function checkGroup(sharepoint_id, discussion, admin_chanel) {
+  let result = connection.query(
+    `SELECT share_point FROM groups WHERE share_point=${sharepoint_id} OR` +
+      ` discussion=${discussion} OR admin_channel=${admin_chanel};`
+  );
   console.log(result);
-  return !result.length
-}
-function addGroups(sharepoint_id,discussion,admin_chanel){
-  connection.query(`INSERT INTO groups (share_point,discussion,admin_channel)`+
-    `VALUES ( ${sharepoint_id},${discussion},${admin_chanel});`
-  )
+  return !result.length;
 }
 
-function isAdmin(id){
-  let result = connection.query(`SELECT id FROM premium_members WHERE id=${id};`)
-  return !!result.length
+function addGroups(sharepoint_id, discussion, admin_chanel) {
+  connection.query(
+    `INSERT INTO groups (share_point,discussion,admin_channel)` +
+      `VALUES ( ${sharepoint_id},${discussion},${admin_chanel});`
+  );
+}
+
+function isAdmin(id) {
+  let result = connection.query(
+    `SELECT id FROM premium_members WHERE id=${id};`
+  );
+  return !!result.length;
 }
 
 module.exports = {
@@ -131,5 +138,5 @@ module.exports = {
   getInfoAboutGroup,
   addGroups,
   checkGroup,
-  isAdmin
+  isAdmin,
 };

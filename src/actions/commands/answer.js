@@ -1,5 +1,10 @@
 const { composer, middleware } = require("../../core/bot");
-const { isHomework, isAnswered, saveAnswer, getInfoAboutGroup } = require("../lib");
+const {
+  isHomework,
+  isAnswered,
+  saveAnswer,
+  getInfoAboutGroup,
+} = require("../lib");
 const {
   changedMessage,
   captionForAdmin,
@@ -11,7 +16,6 @@ const { permissionDanied, answerSaved } = require("../../log");
 
 // Handler
 composer.on("photo", async (ctx) => {
-
   // Get main data (object)
   let content = ctx.update.message;
   let caption = content.caption ?? "";
@@ -25,9 +29,8 @@ composer.on("photo", async (ctx) => {
     caption.match(/^#answer/gi) &&
     isHomework(homework_message_id, share_point_id)
   ) {
-
     let status = isAnswered(content.from.id, homework_message_id);
-    let group = getInfoAboutGroup(share_point_id)
+    let group = getInfoAboutGroup(share_point_id);
     switch (status) {
       case "new":
         // Remove '#answer' from caption
@@ -57,7 +60,11 @@ composer.on("photo", async (ctx) => {
               caption,
               "pending ⏳"
             ),
-            reply_markup: checkBtn(homework_message_id, currentID, share_point_id),
+            reply_markup: checkBtn(
+              homework_message_id,
+              currentID,
+              share_point_id
+            ),
             parse_mode: "HTML",
           })
           .then()

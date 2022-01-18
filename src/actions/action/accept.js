@@ -7,10 +7,10 @@ const { permissionDanied } = require("../../log");
 composer.action(/^accept (.+)/g, async (ctx) => {
   // Get most needed data
   const content = ctx.update.callback_query;
-  const id = ctx.match[1].split(' ');
+  const id = ctx.match[1].split(" ");
   const info = getInfoFromID(id[0]);
   let url = `t.me/c/${id[1].slice(4)}/${info["homework_id"]}`;
-  let group = getInfoAboutGroup(id[1])
+  let group = getInfoAboutGroup(id[1]);
   // Send a message to user
   await ctx.telegram
     .sendPhoto(info["from_id"], info["photo_id"], {
