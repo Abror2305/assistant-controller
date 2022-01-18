@@ -1,5 +1,5 @@
 const { composer, middleware } = require("../../core/bot");
-const { checkIsAccepted, getInfoFromID, getInfoAboutGroup } = require("../lib");
+const { checkIsAccepted, getInfoFromID } = require("../lib");
 const {
   warningForUser,
   errorForUser,
