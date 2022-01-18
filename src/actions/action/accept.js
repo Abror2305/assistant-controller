@@ -42,7 +42,7 @@ composer.action(/^accept (.+)/g, async (ctx) => {
   // Change the user status in the group
   await ctx.telegram
     .editMessageText(
-      group[0],
+      group['discussion'],
       info["replaced_message_id"],
       null,
       changedMessage(

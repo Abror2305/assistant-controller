@@ -14,7 +14,6 @@ function isHomework(message_id, channel_id) {
     );
     return !!result.length;
   }
-  return false;
 }
 
 function isAnswered(from_id, homework_id) {
@@ -98,23 +97,22 @@ function changeStatus(status, id) {
 
 function getInfoAboutGroup(share_point_id) {
   let result = connection.query(`SELECT * FROM groups WHERE share_point=${share_point_id}`)
-
-  return result[0]
+  return result[0];
 }
 
-function checkGroup(sharepoint_id, discussion, admin_chanel) {
+function checkGroup(share_point_id, discussion, admin_chanel) {
   let result = connection.query(
-    `SELECT share_point FROM groups WHERE share_point=${sharepoint_id} OR` +
+    `SELECT share_point FROM groups WHERE share_point=${share_point_id} OR` +
       ` discussion=${discussion} OR admin_channel=${admin_chanel};`
   );
   console.log(result);
   return !result.length;
 }
 
-function addGroups(sharepoint_id, discussion, admin_chanel) {
+function addGroups(share_point_id, discussion, admin_chanel) {
   connection.query(
     `INSERT INTO groups (share_point, discussion, admin_channel)` +
-      `VALUES ( ${sharepoint_id}, ${discussion}, ${admin_chanel});`
+      `VALUES ( ${share_point_id}, ${discussion}, ${admin_chanel});`
   );
 }
 

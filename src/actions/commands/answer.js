@@ -50,7 +50,7 @@ composer.on("photo", async (ctx) => {
 
         // Send user's answer to Admin channel
         await ctx.telegram
-          .sendPhoto(group[1], content.photo[0].file_id, {
+          .sendPhoto(group['admin_channel'], content.photo[0].file_id, {
             caption: captionForAdmin(
               {
                 first_name: content.from.first_name,
@@ -116,7 +116,7 @@ composer.on("photo", async (ctx) => {
 
     // Delete excess homework
     await ctx.telegram
-      .deleteMessage(group[0], content.message_id)
+      .deleteMessage(group['discussion'], content.message_id)
       .then()
       .catch(() => permissionDanied());
   }

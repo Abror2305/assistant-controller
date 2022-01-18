@@ -42,7 +42,7 @@ composer.action(/^reject (.+)/g, async (ctx) => {
 
   // Delete message from group
   await ctx.telegram
-    .deleteMessage(group[0], info["replaced_message_id"])
+    .deleteMessage(group['discussion'], info["replaced_message_id"])
     .then()
     .catch(() => permissionDanied());
 });
