@@ -116,8 +116,11 @@ function addGroups(sharepoint_id,discussion,admin_chanel){
 }
 
 function isAdmin(id){
-  let result = connection.query(`SELECT id FROM premium_members WHERE id=${id};`)
+  let result = connection.query(`SELECT id FROM admins WHERE id=${id};`)
   return !!result.length
+}
+function rmGroup(share_point){
+  connection.query(`DELETE FROM groups WHERE share_point=${share_point};`)
 }
 
 module.exports = {
@@ -131,5 +134,6 @@ module.exports = {
   getInfoAboutGroup,
   addGroups,
   checkGroup,
-  isAdmin
+  isAdmin,
+  rmGroup
 };
