@@ -6,9 +6,9 @@ const { permissionDanied } = require("../../log");
 
 composer.action(/^reject (.+)/g, async (ctx) => {
   const content = ctx.update.callback_query;
-  const id = ctx.match[1].split(' ');
+  const id = ctx.match[1].split(" ");
   const info = getInfoFromID(id[0]);
-  let group = getInfoAboutGroup(id[1])
+  let group = getInfoAboutGroup(id[1]);
 
   let url = `t.me/c/${id[1].slice(4)}/${info["homework_id"]}`;
 
@@ -42,7 +42,7 @@ composer.action(/^reject (.+)/g, async (ctx) => {
 
   // Delete message from group
   await ctx.telegram
-    .deleteMessage(group[0], info["replaced_message_id"])
+    .deleteMessage(group['discussion'], info["replaced_message_id"])
     .then()
     .catch(() => permissionDanied());
 });

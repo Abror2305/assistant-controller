@@ -1,5 +1,5 @@
 const { composer, middleware } = require("../../core/bot");
-const { checkIsAccepted, getInfoFromID, getInfoAboutGroup } = require("../lib");
+const { checkIsAccepted, getInfoFromID } = require("../lib");
 const {
   warningForUser,
   errorForUser,
@@ -10,14 +10,12 @@ const { homeworkBtn } = require("../keys");
 
 composer.action(/^getcode (.+)/g, async (ctx) => {
   const content = ctx.update.callback_query;
-  const id = ctx.match[1].split(' ');
+  const id = ctx.match[1].split(" ");
   const info = getInfoFromID(id[0]);
   let checked = checkIsAccepted(content.from.id, info["homework_id"]);
 
   if (checked === false) {
-    return await ctx
-      .answerCbQuery(errorForUser, true)
-      .then();
+    return await ctx.answerCbQuery(errorForUser, true).then();
   } else {
     let url = `t.me/c/${id[1].slice(4)}/${info["homework_id"]}`;
 
