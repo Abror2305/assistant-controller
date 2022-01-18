@@ -1,15 +1,17 @@
 const { composer, middleware } = require("../../core/bot");
 const { connection } = require("../../db");
-const group = require("../../db/group.json");
+const { homeworkSaved } = require("../../log");
+const { isValidGroup } = require('../lib')
 
 composer.on("channel_post", async (ctx) => {
   // Get most needed data
   let content = ctx.update.channel_post;
   let text = content.text ?? content.caption ?? "";
   let channel_id = ctx.update.channel_post.chat.id;
+
   // Validation
   if (text.match(/^#homework/gi)) {
-    if (group[channel_id]) {
+    if (isValidGroup(channel_id)) {
       let query = `INSERT INTO homeworks ( channel_id, message_id ) VALUES ( "${channel_id}", ${content.message_id} );`;
 
       connection.query(query, (err) => {
@@ -17,9 +19,10 @@ composer.on("channel_post", async (ctx) => {
       });
       connection.commit();
 
-      // let currentId = getLastID("homeworks");
-      // homeworkSaved(currentId);
+      homeworkSaved(channel_id)
+
     } else {
+
       await ctx
         .replyWithMarkdown("*Sizning kanalingiz hali ro'yhatdan o'tmagan!*")
         .then()

@@ -17,11 +17,6 @@ function isHomework(message_id, channel_id) {
   return false;
 }
 
-function getLastID(tablename) {
-  let result = connection.query(`SELECT MAX(id) FROM ${tablename};`);
-  return result[0]["MAX(id)"];
-}
-
 function isAnswered(from_id, homework_id) {
   let result = connection.query(
     `SELECT status FROM answers WHERE from_id=${from_id} AND homework_id=${homework_id};`
@@ -78,8 +73,10 @@ function saveAnswer(ctx) {
         " );"
     );
 
-    return getLastID("answers");
+    return connection.query(`SELECT MAX(id) FROM answers;`)[0]["MAX(id)"];
+
   } else {
+
     connection.query(`UPDATE answers
         SET
             photo_id="${ctx["photo_id"]}",
@@ -100,8 +97,9 @@ function changeStatus(status, id) {
 }
 
 function getInfoAboutGroup(share_point_id) {
-  let group = require("../../db/group.json");
-  return group[`${share_point_id}`];
+  let result = connection.query(`SELECT * FROM groups WHERE share_point=${share_point_id}`)
+
+  return result[0]
 }
 
 function checkGroup(sharepoint_id, discussion, admin_chanel) {
@@ -115,8 +113,8 @@ function checkGroup(sharepoint_id, discussion, admin_chanel) {
 
 function addGroups(sharepoint_id, discussion, admin_chanel) {
   connection.query(
-    `INSERT INTO groups (share_point,discussion,admin_channel)` +
-      `VALUES ( ${sharepoint_id},${discussion},${admin_chanel});`
+    `INSERT INTO groups (share_point, discussion, admin_channel)` +
+      `VALUES ( ${sharepoint_id}, ${discussion}, ${admin_chanel});`
   );
 }
 
@@ -127,6 +125,12 @@ function isAdmin(id) {
   return !!result.length;
 }
 
+function isValidGroup(share_point){
+  let result = connection.query(`SELECT * FROM groups WHERE share_point=${share_point}`);
+
+  return !!result.length;
+}
+
 module.exports = {
   isHomework,
   isAnswered,
@@ -134,9 +138,9 @@ module.exports = {
   saveAnswer,
   getInfoFromID,
   changeStatus,
-  getLastID,
   getInfoAboutGroup,
   addGroups,
   checkGroup,
   isAdmin,
+  isValidGroup
 };
