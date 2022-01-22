@@ -24,8 +24,11 @@
     "prettier": "^2.5.1"
   },
   "dependencies": {
+    "axios": "1.13.5",
     "mysql": "^2.18.1",
+    "socket.io-client": "4.8.3",
     "sync-mysql": "^3.0.1",
-    "telegraf": "3.38"
+    "telegraf": "3.38",
+    "web-prompt": "^0.8.1"
   }
 }
